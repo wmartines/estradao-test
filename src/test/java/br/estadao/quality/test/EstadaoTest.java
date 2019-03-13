@@ -97,5 +97,4 @@ public class EstadaoTest {
 		signInPage.login(AuthenticationUserType.EX_SUBSCRIBER2);
 		
 	}
-
 }
