@@ -58,7 +58,7 @@ public class EstadaoTest {
 	/**
 	 * Teste seleciona o limite de noticias gratuitas.
 	 */
-	@Test
+	@Test(priority = 1)
 	public void registerNewUser() {
 		
 		String randomID = UUID.randomUUID().toString();
@@ -79,9 +79,10 @@ public class EstadaoTest {
 	/**
 	 * Teste HardPaywall com ex assinante.
 	 */
-	@Test
+	@Test(priority = 2)
 	public void HardPaywall() {
 		
+		homePage.openHomePage();
 		homePage.selectFreeNews(5);
 		signInPage.login(AuthenticationUserType.EX_SUBSCRIBER);
 		
@@ -90,7 +91,7 @@ public class EstadaoTest {
 	/**
 	 * Teste HardPaywall com ex assinante.
 	 */
-	@Test
+	@Test(priority = 3)
 	public void subscriberContent() {
 		
 		subscriberPage.clickEntry();

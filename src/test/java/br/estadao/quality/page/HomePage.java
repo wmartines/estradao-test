@@ -58,13 +58,22 @@ public class HomePage {
 	 * @param index the index
 	 */
 	public void selectNewsAccordingToIndex(int index) {
-		driver.switchTo().defaultContent();
+		
+		action.switchToMainPage();
+		
+		//closeAdvertising();k'
 		closeAlertModal();
-		action.scrollDown();
 		
 		// seleciona noticia de acordo com index
-		action.clickWithReload(By.xpath("(.//h3/a)["+index+"]"));
-		System.out.println("noticia: "+index);
+		action.scrollDown();
+		boolean isnewsPresent = action.isElementPresent(By.xpath("(.//h3/a)["+index+"]"));
+		Optional.ofNullable(isnewsPresent)
+				.filter(news -> news.equals(true))
+				.map(news -> {
+					action.clickWithReload(By.xpath("(.//h3/a)["+index+"]"));
+					System.out.println("noticia: "+index);
+					return true;
+				}).orElse(false);
 	}
 	
 	/**
@@ -102,8 +111,22 @@ public class HomePage {
 				}).orElseGet(()->{ 
 					return false;
 					});
+	}
 	
-	
+	public boolean closeAdvertising() {
+		
+		boolean isAdvertisingPresent = action.isElementPresent(By.xpath(""));
+		
+		return	Optional.ofNullable(isAdvertisingPresent)
+					.filter(modal -> modal.equals(true))
+					.map(modal -> {
+						
+						action.clickWithReload(By.xpath(""));
+					
+						return true;
+					}).orElseGet(()->{ 
+						return false;
+						});
 	}
 	
 	/**

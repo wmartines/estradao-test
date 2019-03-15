@@ -5,11 +5,9 @@
     <classes>
       <class name="br.estadao.quality.test.EstadaoTest">
         <methods>
-          <include name="HardPaywall"/>
           <include name="setUp"/>
           <include name="tearDown"/>
           <include name="registerNewUser"/>
-          <include name="subscriberContent"/>
         </methods>
       </class> <!-- br.estadao.quality.test.EstadaoTest -->
     </classes>

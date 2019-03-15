@@ -1,6 +1,7 @@
 package br.estadao.quality.util;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -81,12 +82,17 @@ public class ActionMethods {
 
 			// Aguarda elemento ser exibido e clica
 			waitLoadPage();
-			WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-			element.click();
+			WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+			System.out.println("elemento disponivel para click?: "+element.isEnabled());
+			Optional.ofNullable(element)
+					.ifPresent(WebElement->{
+						
+						WebElement.click();
+			});
 			waitLoadPage();
 
 		} catch (Exception e) {
-			LOG.error("[ActionMethods] Erro ao inserir clicar em: "+locator+" ," + e.getCause());
+			LOG.error("[ActionMethods] Erro ao clicar em: "+locator+" ," + e.getCause());
 		}
 	}
 	
@@ -100,7 +106,7 @@ public class ActionMethods {
 		boolean present = false;
 		try {
 			
-			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 			present = driver.findElements(locator).size() > 0;
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		} catch (Exception e) {
@@ -144,7 +150,7 @@ public class ActionMethods {
             WebDriverWait wait = new WebDriverWait(driver, 30);
             wait.until(expectation);
         } catch (Throwable e) {
-        	LOG.error("ActionMethods] error wait for page loaded: "+ e.getCause());
+        	LOG.error("[ActionMethods] error wait for page loaded: "+ e.getCause());
         }
 	}
 	
@@ -163,7 +169,7 @@ public class ActionMethods {
 		try {
 			driver.switchTo().frame(frameId);
 		} catch (Exception e) {
-			LOG.error("ActionMethods] erro ao encontrar modal: " + e.getCause());
+			LOG.error("[ActionMethods] erro ao encontrar modal: " + e.getCause());
 		}
 	}
 	
@@ -174,5 +180,11 @@ public class ActionMethods {
 	public void openPage(String url) {
 		driver.get(url);
 		waitLoadPage();
+	}
+	
+	public void switchToMainPage() {
+		
+		waitLoadPage();
+		driver.switchTo().defaultContent();
 	}
 }
